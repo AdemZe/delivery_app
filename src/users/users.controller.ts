@@ -1,0 +1,58 @@
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { UsersService } from './users.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+
+@Controller('users')
+export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
+
+    @Get()
+    getAllUsers(){
+      return this.usersService.returnUsers()
+
+    }
+
+    @Get(":id")
+    async getUserById(  @Param("id" , ParseIntPipe)  id: number   ){
+      return await this.usersService.returnUserById(id)
+
+    }
+
+    @Post()
+    async createUser(  @Body() createUserDto  : CreateUserDto   ){
+      return await this.usersService.creerUtilisateur(createUserDto)
+
+    }
+
+
+    @Delete(":id")
+    async deleteUser( @Param("id" ,ParseIntPipe ) id : number ){
+
+      return await this.usersService.removeUser(id);
+
+    }
+
+
+    @Patch(":id")
+    async UpdateUser( @Body() updateUserDto  :UpdateUserDto , @Param("id" , ParseIntPipe) id : number ){
+
+      return await this.usersService.userUpdate( updateUserDto,id )
+
+
+    }
+
+
+    @Patch("/activate/:id")
+    async activateUser(  @Param("id"  , ParseIntPipe  ) id:number ){
+      return await this.usersService.activateduser(id)
+    }
+
+
+    @Patch("/deactivate/:id")
+    async deactivateUser(  @Param("id" , ParseIntPipe ) id: number){
+      return await this.usersService.deactivateUser(id);
+    }
+
+  
+}
