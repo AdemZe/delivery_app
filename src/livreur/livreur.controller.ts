@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common';
 import { LivreurService } from './livreur.service';
 import { CreateLivreurDto } from './dto/create-livreur.dto';
 import { UpdateLivreurDto } from './dto/update-livreur.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller('livreur')
 export class LivreurController {
   constructor(private readonly livreurService: LivreurService) {}
