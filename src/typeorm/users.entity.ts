@@ -7,16 +7,21 @@ import {
 } from 'class-validator';
 import { Role } from 'src/autorization/role';
 import { Informations } from 'src/interface/Informations.inetrface';
+import { UserDto } from 'src/users/dto/user.dto';
 import { userStatus } from 'src/users/valueobjects/user-Status.enum';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { JobEntity } from './job.entity';
 
 @Entity()
 export class UserEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({
+    name: 'id_user',
+  })
   id: number;
 
   @Column({
     nullable: true,
+    name: 'first_name',
   })
   @IsString()
   @IsNotEmpty()
@@ -26,6 +31,7 @@ export class UserEntity {
 
   @Column({
     nullable: true,
+    name: 'last_name',
   })
   @IsString()
   @IsNotEmpty()
@@ -36,6 +42,7 @@ export class UserEntity {
   @Column({
     nullable: true,
     unique: true,
+    name: 'email',
   })
   @IsNotEmpty()
   @IsString()
@@ -45,6 +52,7 @@ export class UserEntity {
 
   @Column({
     nullable: true,
+    name: 'password',
   })
   @IsNotEmpty()
   @MinLength(6)
@@ -55,6 +63,7 @@ export class UserEntity {
     type: 'enum',
     enum: userStatus,
     default: userStatus.Active,
+    name: 'status_user',
   })
   status: userStatus;
 
@@ -62,9 +71,34 @@ export class UserEntity {
     type: 'enum',
     enum: Role,
     default: Role.User,
+    name: 'role_user',
   })
   role: Role;
 
-  @Column({ type: 'jsonb', nullable: true })
+  @Column({
+    type: 'jsonb',
+    name: 'informations_personnels',
+  })
   informations: Informations[];
+
+  @Column({
+    nullable: true,
+    default: new Date(),
+    name: 'created_At',
+  })
+  createdAt: Date;
+
+   toUserDto() {
+    return new UserDto(this);
+  }
+
+
+  @OneToMany(()=>JobEntity , job=>job.owner , { onDelete: 'CASCADE'})
+  jobs:JobEntity[]
+
+
+
+
+
 }
+

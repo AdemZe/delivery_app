@@ -6,12 +6,15 @@ import {
   MinLength,
 } from 'class-validator';
 import { Informations } from 'src/interface/Informations.inetrface';
-import { livStatus } from 'src/livreur/valueobjects/livStatus.enum';
+import { DelivererDto } from 'src/livreur/dto/deliverer.dto';
+import { delivererStatus } from 'src/livreur/valueobjects/delivererStatus.enum';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class LivreurEntity {
-  @PrimaryGeneratedColumn()
+export class DelivererEntity {
+  @PrimaryGeneratedColumn({
+    name: 'id_deliverer',
+  })
   id: number;
 
   @IsString()
@@ -20,6 +23,7 @@ export class LivreurEntity {
   @MaxLength(20)
   @Column({
     nullable: true,
+    name: 'first_name',
   })
   firstname: string;
 
@@ -29,6 +33,7 @@ export class LivreurEntity {
   @MaxLength(20)
   @Column({
     nullable: true,
+    name: 'last_name',
   })
   lastname: string;
 
@@ -39,9 +44,9 @@ export class LivreurEntity {
   @Column({
     nullable: false,
     unique: true,
+    name: 'email',
   })
   email: string;
-
 
   @IsNotEmpty()
   @IsString()
@@ -49,23 +54,43 @@ export class LivreurEntity {
   @MinLength(5)
   @Column({
     nullable: true,
+    name: 'password',
   })
-  password: string ;
-
+  password: string;
 
   @Column({
     type: 'enum',
-    enum: livStatus,
-    default: livStatus.Active,
+    enum: delivererStatus,
+    default: delivererStatus.Active,
+    name: 'status_deliverer',
   })
-  status: livStatus;
+  status: delivererStatus;
 
-  @Column({ type: 'jsonb', nullable: true })
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+    name: 'informations_personnels',
+  })
   informations: Informations[];
 
-  @Column({ default: true })
+  @Column({
+    default: true,
+    name: 'isAvailable',
+  })
   isAvailable: boolean;
 
-  @Column()
+  @Column({
+    name: 'nb_Livraisons',
+  })
   nbLivraisonsReussies: number = 0;
+
+  @Column({
+    default: new Date(),
+    name: 'created_At',
+  })
+  createdAt: Date;
+
+  toDelivererDto() {
+    return new DelivererDto(this);
+  }
 }

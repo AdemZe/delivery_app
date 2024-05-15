@@ -1,4 +1,4 @@
-export enum livStatus{
+export enum delivererStatus{
 
     Active="active",
     Deactive="deactivate"

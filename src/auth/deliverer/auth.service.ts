@@ -3,32 +3,32 @@ import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 import { jwtConstants } from '../constantes';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LivreurEntity } from 'src/typeorm/livreur.entity';
-import { LivreurService } from 'src/livreur/livreur.service';
+import { DelivererEntity } from 'src/typeorm/deliverer.entity';
+import { DelivererService } from 'src/livreur/deliverer.service';
 
 @Injectable()
-export class AuthServiceLivreur {
+export class AuthServiceDeliverer {
   constructor(
 
-    @InjectRepository(LivreurEntity)
-    private readonly livRepo: Repository<LivreurEntity>,
+    @InjectRepository(DelivererEntity)
+    private readonly delivRepo: Repository<DelivererEntity>,
     private jwtService: JwtService,
     //private livreurService: LivreurService ,
   ) {}
 
   async signin(email: string, password: string) {
-    const livreur = await this.livRepo
-      .createQueryBuilder('livreur')
-      .where('livreur.email = :email', { email: email })
+    const deliveryPerson = await this.delivRepo
+      .createQueryBuilder('delivery')
+      .where('delivery.email = :email', { email: email })
       .getOne();
-    if (!livreur) {
+    if (!deliveryPerson) {
       throw new NotFoundException(' Utilisateur non trouvé ');
     } else {
-      if (livreur.password === password) {
+      if (deliveryPerson.password === password) {
         const payload = {
-          email: livreur.email,
-          sub: livreur.id,
-          username: livreur.firstname,
+          email: deliveryPerson.email,
+          sub: deliveryPerson.id,
+          username: deliveryPerson.firstname,
         };
         return {
           access_token: await this.jwtService.signAsync(payload, {

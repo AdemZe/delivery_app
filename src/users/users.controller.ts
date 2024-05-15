@@ -15,21 +15,24 @@ export class UsersController {
     @Get()
     @Roles(Role.Admin)
     getAllUsers(){
-      return this.usersService.returnUsers()
+      return this.usersService.getAllUsers()
+
+    }
+
+
+    @Post()
+    async createUser(  @Body() createUserDto  : CreateUserDto   ){
+      return await this.usersService.createUser(createUserDto)
 
     }
 
     @Get(":id")
     async getUserById(  @Param("id" , ParseIntPipe)  id: number   ){
-      return await this.usersService.returnUserById(id)
+      return await this.usersService.getUserById(id)
 
     }
 
-    @Post()
-    async createUser(  @Body() createUserDto  : CreateUserDto   ){
-      return await this.usersService.creerUtilisateur(createUserDto)
 
-    }
 
 
     @Delete(":id")

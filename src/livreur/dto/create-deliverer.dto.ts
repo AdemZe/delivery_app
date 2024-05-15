@@ -2,7 +2,7 @@ import { IsEmail, IsNotEmpty, IsString, MaxLength, MinLength } from "class-valid
 import { Informations } from "src/interface/Informations.inetrface";
 
 
-export class CreateLivreurDto{
+export class CreateDelivererDto{
 
     
     @IsString()
@@ -32,6 +32,10 @@ export class CreateLivreurDto{
 
     @IsNotEmpty()
     informations: Informations[];
+
+
+
+    
 
 
 
