@@ -12,7 +12,7 @@ import { UserEntity } from 'src/typeorm/users.entity';
 
   providers: [UsersService , ],
 
-  exports:[TypeOrmModule],
+  exports:[TypeOrmModule,UsersService],
 
 })
 

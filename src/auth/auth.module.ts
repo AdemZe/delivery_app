@@ -5,11 +5,11 @@ import { UsersModule } from 'src/users/users.module';
 import { jwtConstants } from './constantes';
 import { UserEntity } from 'src/typeorm/users.entity';
 import { AuthControllerUser } from './users/auth.controller';
-import { AuthControllerLivreur } from './livreur/auth.controller';
-import { AuthServiceLivreur } from './livreur/auth.service';
-import { LivreurModule } from 'src/livreur/livreur.module';
-import { LivreurEntity } from 'src/typeorm/livreur.entity';
-import { LivreurService } from 'src/livreur/livreur.service';
+import { AuthControllerDeliverer } from './deliverer/auth.controller';
+import { AuthServiceDeliverer } from './deliverer/auth.service';
+import { DelivererModule } from 'src/livreur/deliverer.module';
+import { DelivererEntity } from 'src/typeorm/deliverer.entity';
+import { DelivererService } from 'src/livreur/deliverer.service';
 
 @Module({
 
@@ -20,15 +20,15 @@ import { LivreurService } from 'src/livreur/livreur.service';
       signOptions: { expiresIn: '60000s' },
     }),
     UsersModule,
-    LivreurModule, 
+    DelivererModule, 
     UserEntity , 
-    LivreurEntity
+    DelivererEntity
   ],
 
   
 
-  controllers: [AuthControllerUser,AuthControllerLivreur],
-  providers: [AuthServiceUser,AuthServiceLivreur],
+  controllers: [AuthControllerUser,AuthControllerDeliverer],
+  providers: [AuthServiceUser,AuthServiceDeliverer],
 })
 export class AuthModule {}
 

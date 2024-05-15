@@ -1,6 +1,6 @@
 export interface Informations {
-    numero: string , 
-    pays: string;
-    ville: string;
-    region: string; 
+  phoneNumber: string;
+  country: string;
+  city: string;
+  region: string;
 }
